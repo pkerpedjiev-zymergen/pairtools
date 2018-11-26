@@ -683,7 +683,6 @@ def push_sam(line, drop_seq, sams1, sams2):
         _, flag, _ = sam.split('\t', 2)
         flag = int(flag)
 
-
     if ((flag & 0x40) != 0):
         sams1.append(sam)
     else:
@@ -780,6 +779,12 @@ def streaming_classify(instream, outstream, chromosomes, min_mapq, max_molecule_
         read_id = line.split('\t', 1)[0] if line else None
 
         if not(line) or ((read_id != prev_read_id) and prev_read_id):
+            if len(sams1) == 0 or len(sams2) == 0:
+                raise InvalidInputException(
+                        "Read pair not present. Make sure that the alignment " +
+                        "was performed in paired end mode (-P parameter in " +
+                        "bwa mem).")
+
             algn1, algn2, all_algns1, all_algns2 = parse_sams_into_pair(
                 sams1,
                 sams2,
@@ -864,6 +869,14 @@ def parse_alternative_algns(samcols):
             })
 
     return supp_algns
+
+class InvalidInputException(Exception):
+    '''
+    Something was wrong with the input passed into pairtools parse.
+
+    Warn the user and exit.
+    '''
+    pass
 
 #def parse_supp(samcols, min_mapq):
 #    supp_algns = []
