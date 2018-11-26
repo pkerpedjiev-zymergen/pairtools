@@ -782,8 +782,8 @@ def streaming_classify(instream, outstream, chromosomes, min_mapq, max_molecule_
             if len(sams1) == 0 or len(sams2) == 0:
                 raise InvalidInputException(
                         "Read pair not present. Make sure that the alignment " +
-                        "was performed in paired end mode (-P parameter in " +
-                        "bwa mem).")
+                        "was performed in paired end mode (-p parameter in " +
+                        "bwa mem if using interleaved paired fastq).")
 
             algn1, algn2, all_algns1, all_algns2 = parse_sams_into_pair(
                 sams1,
