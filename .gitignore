@@ -1,5 +1,8 @@
 # vim undos
 *.un~
+*.swp
+*.swo
+*.swn
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
